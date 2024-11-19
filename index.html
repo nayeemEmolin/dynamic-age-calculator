@@ -107,20 +107,31 @@
             if (dob) {
                 const birthDate = new Date(dob);
                 const today = new Date();
-                let age = today.getFullYear() - birthDate.getFullYear();
-                const monthDifference = today.getMonth() - birthDate.getMonth();
 
-                if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
-                    age--;
-                }
-
-                if (age < 0) {
-                    resultDiv.innerHTML = "কি ব্যাপার!! আপনি ভবিষ্যতে চলে আসছেন যে!! দয়া করে জন্মতারিখটি ঠিক করে লিখুন। ধন্যবাদ।";
+                if (birthDate > today) {
+                    resultDiv.innerHTML = "কি ব্যাপার! আপনি ভবিষ্যতে চলে আসছেন যে!! দয়া করে জন্মতারিখটি ঠিক করে লিখুন। ধন্যবাদ।";
                     resultDiv.classList.add('error');
-                } else {
-                    resultDiv.innerHTML = `The Child is ${age} years old.`;
-                    resultDiv.classList.remove('error');
+                    return;
                 }
+
+                // Calculate age in years, months, and days
+                let years = today.getFullYear() - birthDate.getFullYear();
+                let months = today.getMonth() - birthDate.getMonth();
+                let days = today.getDate() - birthDate.getDate();
+
+                if (days < 0) {
+                    months--;
+                    const lastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+                    days += lastMonth.getDate();
+                }
+
+                if (months < 0) {
+                    years--;
+                    months += 12;
+                }
+
+                resultDiv.innerHTML = `The Child is ${years} years, ${months} months, and ${days} days old.`;
+                resultDiv.classList.remove('error');
             } else {
                 resultDiv.innerHTML = 'Please select a valid date.';
                 resultDiv.classList.add('error');
