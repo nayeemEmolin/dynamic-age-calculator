@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Age Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label, input, p {
+            display: block;
+            margin-bottom: 10px;
+        }
+        #ageDisplay {
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h2>BIA Data Collection - Age Calculator</h2>
+    <form>
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob" required>
+        <p id="ageDisplay">Age: </p>
+    </form>
+
+    <script>
+        document.getElementById('dob').addEventListener('input', function() {
+            const dob = new Date(this.value);
+            const today = new Date();
+            let age = today.getFullYear() - dob.getFullYear();
+            const m = today.getMonth() - dob.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+                age--;
+            }
+            document.getElementById('ageDisplay').innerText = this.value ? `Age: ${age} years` : 'Age: ';
+        });
+    </script>
+</body>
+</html>
