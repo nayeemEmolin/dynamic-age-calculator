@@ -81,6 +81,10 @@
             color: #ffeb3b;
             text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
         }
+
+        .error {
+            color: #ff4f4f;
+        }
     </style>
 </head>
 <body>
@@ -98,6 +102,8 @@
     <script>
         function calculateAge() {
             const dob = document.getElementById('dob').value;
+            const resultDiv = document.getElementById('result');
+
             if (dob) {
                 const birthDate = new Date(dob);
                 const today = new Date();
@@ -108,9 +114,16 @@
                     age--;
                 }
 
-                document.getElementById('result').innerHTML = `The Child is ${age} years old.`;
+                if (age < 0) {
+                    resultDiv.innerHTML = "Whoa! This kid's a time traveler from the future! Please check the Date of Birth—you might have met them in a sci-fi movie!";
+                    resultDiv.classList.add('error');
+                } else {
+                    resultDiv.innerHTML = `The Child is ${age} years old.`;
+                    resultDiv.classList.remove('error');
+                }
             } else {
-                document.getElementById('result').innerHTML = 'Please select a valid date.';
+                resultDiv.innerHTML = 'Please select a valid date.';
+                resultDiv.classList.add('error');
             }
         }
     </script>
